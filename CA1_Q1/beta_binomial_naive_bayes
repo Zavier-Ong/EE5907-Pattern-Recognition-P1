@@ -1,0 +1,17 @@
+import numpy as np
+from scipy import io
+import matplotlib.pyplot as plot
+
+mat = io.loadmat('spamData.mat')# dictionary (key -> load matrix)
+Xtrain=mat['Xtrain']
+ytrain=mat['ytrain']
+
+Xtest=mat['Xtest']
+ytest=mat['ytest']
+
+#print(Xtrain.shape)
+#print(ytrain.shape)
+#print(Xtest.shape)
+#print(ytest.shape)
+
+def binarize():
