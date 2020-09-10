@@ -64,7 +64,7 @@ alpha_arr = np.arange(0,100.5, 0.5)
 def calc_posterior(N1, N, alpha):
     return (N1+alpha)/(N+2*alpha)
 
-def calc_posterior_predictive_distribution(dataset, feature_sum, spam, alpha):
+def calc_posterior_predictive_distribution(dataset, feature_sum, N, spam, alpha):
     if spam:
         ML = np.log(MLE)
     else:
@@ -74,9 +74,9 @@ def calc_posterior_predictive_distribution(dataset, feature_sum, spam, alpha):
         posterior_predictive = ML
         for j in range(len(dataset[i])):
             if dataset[i][j] == 1:
-                posterior_predictive += np.log(calc_posterior(feature_sum[j], N_spam, alpha))
+                posterior_predictive += np.log(calc_posterior(feature_sum[j], N, alpha))
             else:
-                posterior_predictive += np.log(1-calc_posterior(feature_sum[j], N_not_spam, alpha))
+                posterior_predictive += np.log(calc_posterior(feature_sum[j], N, alpha))
         ppd.append(posterior_predictive)
     return np.array(ppd)
 
@@ -102,13 +102,13 @@ error_train = []
 error_test = []
 #for i in range(len(alpha_arr)):
     #calculation for error in training
-posterior_predictive_spam_arr = calc_posterior_predictive_distribution(binarized_x_train, N_1, 1, 1)
-posterior_predictive_not_spam_arr = calc_posterior_predictive_distribution(binarized_x_train, N_0, 0, 1)
+posterior_predictive_spam_arr = calc_posterior_predictive_distribution(binarized_x_train, N_1, N_spam, 1, 1)
+posterior_predictive_not_spam_arr = calc_posterior_predictive_distribution(binarized_x_train, N_0, N_not_spam, 0, 1)
 result = predict(posterior_predictive_spam_arr, posterior_predictive_not_spam_arr)
 error_train.append(calc_error(result, y_train))
-#calculation for error in test
-posterior_predictive_spam_arr = calc_posterior_predictive_distribution(binarized_x_test, N_1, 1, 1)
-posterior_predictive_not_spam_arr = calc_posterior_predictive_distribution(binarized_x_test, N_0, 0, 1)
+    #calculation for error in test
+posterior_predictive_spam_arr = calc_posterior_predictive_distribution(binarized_x_test, N_1, N_spam, 1, 1)
+posterior_predictive_not_spam_arr = calc_posterior_predictive_distribution(binarized_x_test, N_0, N_not_spam, 0, 1)
 result = predict(posterior_predictive_spam_arr, posterior_predictive_not_spam_arr)
 error_test.append(calc_error(result, y_test))
 
