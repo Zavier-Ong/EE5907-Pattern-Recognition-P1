@@ -27,7 +27,7 @@ binarized_x_test = binarize(x_test)
 #Posterior predictive distribution for class prior (MLE)
 #since all data is represented as binary, we can calculate the MLE by simply calculating the mean
 MLE = np.mean(y_train)
-print(MLE)
+#print(MLE)
 #Calculating N1 and N values
 spam_index_arr = []
 not_spam_index_arr = []
@@ -43,7 +43,7 @@ for i in range(len(y_train)):
 
 spam_feature_sum = np.sum(binarized_x_train[spam_index_arr], axis=0)
 not_spam_feature_sum = np.sum(binarized_x_train[not_spam_index_arr], axis=0)
-print(spam_feature_sum)
+#print(spam_feature_sum)
 
 #setting alpha step sizes
 alpha_arr = np.arange(0, 100.5, 0.5)
@@ -60,7 +60,7 @@ def calc_posterior_predictive_distribution(dataset, alpha, spam_class_label):
         ML = np.log(1-MLE)
         total = not_spam_total
         feature_sum = not_spam_feature_sum
-    feature_ppd = []
+    feature_ppd = np.zeros(shape = [len(dataset),])
     # for i in range(len(dataset)):
     #     pd = ML
     #     for j in range(len(dataset[i])):
@@ -78,7 +78,7 @@ def calc_posterior_predictive_distribution(dataset, alpha, spam_class_label):
                     pd += np.log(calc_posterior_predictive(feature_sum[j], total, alpha))
                 else:
                     pd += np.log(1-calc_posterior_predictive(feature_sum[j], total, alpha))
-            feature_ppd.append(pd)
+            feature_ppd[i] = pd
         return np.array(feature_ppd)
     else:
         pd = calc_posterior_predictive(feature_sum, total, alpha)
@@ -86,12 +86,12 @@ def calc_posterior_predictive_distribution(dataset, alpha, spam_class_label):
         return feature_ppd+ML
 
 def predict(spam, not_spam):
-    result = []
+    result = np.zeros(shape = [len(spam),])
     for i in range(len(spam)):
         if spam[i] > not_spam[i]:
-            result.append(1)
+            result[i] = 1
         else:
-            result.append(0)
+            result[i] = 0
     return np.array(result)
 
 def calc_error(result, ans):
@@ -115,13 +115,17 @@ for alpha in alpha_arr:
     ppd_not_spam_test = calc_posterior_predictive_distribution(binarized_x_test, alpha, 0)
     test_result_arr = predict(ppd_spam_test, ppd_not_spam_test)
     error_test.append(calc_error(test_result_arr, y_test))
-    if alpha == 1:
-        print(error_train[1])
-        print(error_test[1])
+
+alpha_val = [1, 10, 100]
+for i in alpha_val:
+    print('train alpha (' + str(i) + ') :'  + str(error_train[i]))
+    print('test alpha  (' + str(i) + ') :' + str(error_test[i]))
 
 plt.figure(1)
 plt.plot(alpha_arr, np.array(error_train), label="Train dataset")
 plt.plot(alpha_arr, np.array(error_test), label="Test dataset")
+plt.xlabel('alpha', fontsize=16)
+plt.ylabel('error rate (%)', fontsize=16)
 plt.legend(loc=0)
-plt.title('Error rate (Beta-bernoulli Naive Bayes)')
+plt.title('Error rate vs Alpha', fontsize=16)
 plt.show()
