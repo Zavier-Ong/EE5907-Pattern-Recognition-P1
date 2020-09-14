@@ -82,7 +82,7 @@ def calc_posterior_predictive_distribution(dataset, alpha, spam_class_label):
         return np.array(feature_ppd)
     else:
         pd = calc_posterior_predictive(feature_sum, total, alpha)
-        feature_ppd = np.dot(dataset, np.log(pd)) + np.dot((1-dataset), np.log(1-pd))
+        feature_ppd = dataset.dot(np.log(pd)) + (1-dataset).dot(np.log(1-pd))
         return feature_ppd+ML
 
 def predict(spam, not_spam):
@@ -122,8 +122,8 @@ for i in alpha_val:
     print('test alpha  (' + str(i) + ') :' + str(error_test[i]))
 
 plt.figure(1)
-plt.plot(alpha_arr, np.array(error_train), label="Train dataset")
-plt.plot(alpha_arr, np.array(error_test), label="Test dataset")
+plt.plot(alpha_arr, np.array(error_train)*100, label="Train dataset")
+plt.plot(alpha_arr, np.array(error_test)*100, label="Test dataset")
 plt.xlabel('alpha', fontsize=16)
 plt.ylabel('error rate (%)', fontsize=16)
 plt.legend(loc=0)
