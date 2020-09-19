@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io as io
-import scipy.linalg as sp
 
 mat = io.loadmat('spamData.mat')
 x_train=mat['Xtrain'] #(3065, 57)
@@ -79,7 +78,7 @@ def classify(probs):
             result[i] = 0
     return result
 
-lambda_arr = np.concatenate((np.arange(11), np.arange(15,105,5)), axis=None)
+lambda_arr = np.concatenate((np.arange(1,11), np.arange(15,105,5)), axis=None)
 train_error_arr = np.zeros(shape=[len(lambda_arr), 1])
 test_error_arr = np.zeros(shape=[len(lambda_arr), 1])
 
@@ -95,8 +94,8 @@ for i in range(len(lambda_arr)):
     test_error_arr[i] = calc_error(test_result, y_test)
 
     if lambda_arr[i] == 1 or lambda_arr[i] == 10 or lambda_arr[i] == 100:
-        print('train lambda (' + str(i) + ') :' + str(train_error_arr[i]))
-        print('test lambda  (' + str(i) + ') :' + str(test_error_arr[i]))
+        print('train lambda (' + str(lambda_arr[i]) + ') :' + str(train_error_arr[i]))
+        print('test lambda  (' + str(lambda_arr[i]) + ') :' + str(test_error_arr[i]))
 
 plt.figure(1)
 plt.plot(lambda_arr, np.array(train_error_arr)*100, label='Train dataset')
@@ -104,5 +103,5 @@ plt.plot(lambda_arr, np.array(test_error_arr)*100, label='Test dataset')
 plt.xlabel('Lambda', fontsize = 16)
 plt.ylabel('Error rate (%)', fontsize = 16)
 plt.legend(loc=0)
-plt.title('Graph of Error rate(%) against Lambda', fontsize = 16)
+plt.title('Logistic Regression(Error Rate vs Lambda)', fontsize = 16)
 plt.show()

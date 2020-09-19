@@ -45,9 +45,6 @@ spam_feature_sum = np.sum(binarized_x_train[spam_index_arr], axis=0)
 not_spam_feature_sum = np.sum(binarized_x_train[not_spam_index_arr], axis=0)
 #print(spam_feature_sum)
 
-#setting alpha step sizes
-alpha_arr = np.arange(0, 100.5, 0.5)
-
 def calc_posterior_predictive(N1, N, alpha):
     return (N1 + alpha)/(N+2*alpha)
 
@@ -104,7 +101,8 @@ def calc_error(result, ans):
 
 error_train = []
 error_test = []
-
+#setting alpha step sizes
+alpha_arr = np.arange(0, 100.5, 0.5)
 for alpha in alpha_arr:
     ppd_spam_train = calc_posterior_predictive_distribution(binarized_x_train, alpha, 1)
     ppd_not_spam_train = calc_posterior_predictive_distribution(binarized_x_train, alpha, 0)
@@ -127,5 +125,5 @@ plt.plot(alpha_arr, np.array(error_test)*100, label="Test dataset")
 plt.xlabel('alpha', fontsize=16)
 plt.ylabel('error rate (%)', fontsize=16)
 plt.legend(loc=0)
-plt.title('Error rate vs Alpha', fontsize=16)
+plt.title('Beta Binomial Naive Bayes(Error rate vs Alpha)', fontsize=16)
 plt.show()
