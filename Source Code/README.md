@@ -15,7 +15,7 @@ This code is wrriten in python 3.7
 ## Running Question 2.
 1. Opening Command Prompt in source code folder
 2. Type "py gaussian_naive_bayes.py"
-3. A graph plot should appear while the error rates would be reflected in the cmdline
+3. The error rates would be reflected in the cmdline
 
 ## Running Question 3.
 1. Opening Command Prompt in source code folder
