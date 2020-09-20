@@ -1,6 +1,6 @@
 # EE5907_CA1
 
-This code is wrriten in python 3.7
+This code is written in python 3.7
 
 ## Dependencies
 1. Ensure that Python 3.7.0 is downloaded
@@ -28,6 +28,6 @@ This code is wrriten in python 3.7
 3. A graph plot should appear while the error rates would be reflected in the cmdline
 4. Note that this would take about 4 to 5 minutes to complete.
 
-Please contact me if you have any difficulties
+Please contact me if you have any difficulties in running the code
 Author: Zavier (A0138993L)
 Email : e0002878@u.nus.edu
