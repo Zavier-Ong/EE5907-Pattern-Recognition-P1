@@ -67,6 +67,8 @@ def calc_posterior_predictive_distribution(dataset, alpha, spam_class_label):
     #             pd += np.log(1 - calc_posterior_predictive(feature_sum[j], total, alpha))
     #     feature_ppd.append(pd)
     # return np.array(feature_ppd)
+
+    ## Optimization that utilizes matrix multiplication to speed up the code as it was too slow.
     if alpha ==0:
         for i in range(len(dataset)):
             pd = ML

@@ -30,7 +30,7 @@ def l2_regularization(dataset, w, reg_param_val):
     H = dataset.T.dot(S).dot(dataset)
 
     #w[0] = 0 #exclude bias term
-    w_reg = np.copy(w)
+    w_reg = np.copy(w) #exclude bias term
     w_reg[0] = 0
     g_reg = g + reg_param_val*w_reg
     I = np.identity(len(g))
@@ -52,12 +52,17 @@ def newton_method(dataset, reg_param_val):
         #since there is no need for line search in this assignment, there is no need to solve for d
         next_w = w - np.linalg.inv(H_reg).dot(g_reg)
 
-        #euclidean norm (l1 norm)
-        abs_diff_total = 0
-        num_w = len(w)
+        #library calculations results in a very different plot
+        #l1 norm from library
+        #abs_diff_sum = np.linalg.norm(w, 1)
+        #l2 norm from library
+        #abs_diff_sum = np.linalg.norm(w)
+
+        #error for convergence is calculated by finding the sum of abs diff of w over len(w)
+        abs_diff_sum = 0
         for i in range(len(w)):
-            abs_diff_total += abs(next_w[i] - w[i])
-        error = abs_diff_total / num_w
+            abs_diff_sum += abs(next_w[i] - w[i])
+        error = abs_diff_sum / len(w)
 
         w = next_w
     return w

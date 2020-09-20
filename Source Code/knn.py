@@ -34,9 +34,9 @@ def classifyPoint(distances, k):
     spam_count = np.sum(y_train[k_indexes]==1)
     not_spam_count = np.sum(y_train[k_indexes]==0)
     #in this case where spam and not spam are equal, they would be classified as not spam
-    if spam_count > not_spam_count:
+    #if spam_count > not_spam_count:
     #in this case where spam and not spam are equal, they would be classified as spam
-    #if spam_count >= not_spam_count:
+    if spam_count >= not_spam_count:
         return 1
     else:
         return 0
@@ -58,9 +58,10 @@ k_arr = np.concatenate((np.arange(1,11), np.arange(15,105,5)), axis=None)
 train_error_arr = np.zeros(shape=[len(k_arr), 1])
 test_error_arr = np.zeros(shape=[len(k_arr), 1])
 for i in range(len(k_arr)):
+    #training
     result = classify(train_distances, k_arr[i])
     train_error_arr[i] = calc_error(result, y_train)
-
+    #test
     result = classify(test_distances, k_arr[i])
     test_error_arr[i] = calc_error(result, y_test)
     if k_arr[i] == 1 or k_arr[i] == 10 or k_arr[i] == 100:
